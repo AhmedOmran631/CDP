@@ -27,16 +27,9 @@ class _DigitalDrawingState extends State<DigitalDrawing> {
   void initState() {
     pen.add(draw);
     super.initState();
-
-    // double width = MediaQuery.of(context).size.width / 2;
-    // double height = MediaQuery.of(context).size.height / 2;
-    // points = [
-    //   {"offset": Offset(width, height), "z": 1},
-    //   {"offset": Offset(width, height), "z": 1},
-    // ];
     points = [
-      {"offset": Offset(180, 296), "z": 1},
-      {"offset": Offset(180, 296), "z": 1},
+      {"offset": Offset(180, 390.0), "z": 1},
+      {"offset": Offset(180, 390.0), "z": 1},
     ];
     allData.add(data1);
   }
@@ -176,11 +169,9 @@ class _DigitalDrawingState extends State<DigitalDrawing> {
                                   ),
                                   onPressed: () {
                                     var value = points[points.length - 1];
-
                                     var dy =
                                         (5 / height) * (value["offset"].dy - 5);
                                     var dx = (5 / width) * (value["offset"].dx);
-
                                     if (draw) {
                                       points.add({
                                         "offset": Offset(value["offset"].dx,
@@ -207,7 +198,6 @@ class _DigitalDrawingState extends State<DigitalDrawing> {
                                   ),
                                   onPressed: () {
                                     var value = points[points.length - 1];
-
                                     var dy =
                                         (5 / height) * (value["offset"].dy + 5);
                                     var dx = (5 / width) * (value["offset"].dx);

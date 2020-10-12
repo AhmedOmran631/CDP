@@ -6,6 +6,7 @@ import 'package:drawing/Screens/newImage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart' as path;
 
 class ImagePreview extends StatefulWidget {
   final File image;
@@ -31,7 +32,7 @@ class _ImagePreviewState extends State<ImagePreview> {
     });
   }
 
-  List<Map<String, dynamic>> imagesValue;
+  List<Map<String, dynamic>> imagesValue = [];
 
   var _image;
 
@@ -56,49 +57,52 @@ class _ImagePreviewState extends State<ImagePreview> {
       });
     }
   }
-
-  _checkImage(dynamic path) {
+var _value;
+  _checkImage() async{
+      ByteData image = await rootBundle.load(widget.image.path);
+    _value = image.buffer.asUint8List();
+    
     for (int i = 0; i < imagesValue.length; i++) {
-      if (imagesValue[i].containsValue(path.toString())) {
+      if (imagesValue[i].containsValue(_value.toString())) {
         print(imagesValue[i].keys);
         setState(() {
           imageTitle = imagesValue[i].keys.toString();
         });
-      } else {}
+      }
     }
+    
   }
-// var _value;
-//   _check() async {
-//     ByteData image = await rootBundle.load(widget.image.path);
-//     var value = image.buffer.asUint8List();
-//   setState(() {
-//     _value = value;
-//   });
-//   //  _checkImage(value);
-//   }
+
+
+
+  _init() async {
+    await _readBytes().then((_) {
+      setState(() {
+        imagesValue = [
+          {"Star": value1.toString()},
+          {"Square": value2.toString()},
+          {"3D_Chessboard": value3.toString()},
+        ];
+      });
+    });
+    await _checkImage();
+
+  }
 
   @override
   void initState() {
     super.initState();
-
-    _readBytes();
-    //  _check();
-    // .then((_){
-    //   _checkImage(_value);
-    // });
+    _init();
   }
 
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      imagesValue = [
-        {"Star": value1.toString()},
-        {"Square": value2.toString()},
-        {"3D_Chessboard": value3.toString()},
-      ];
-    });
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.cyan[800]),
+      appBar: AppBar(
+        backgroundColor: Colors.cyan[800],
+        centerTitle: true,
+        title:Text(path.basename(widget.image.path),style: TextStyle(fontSize: 14),)
+      ),
       body: SafeArea(
           minimum: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
           child: Stack(
@@ -119,17 +123,12 @@ class _ImagePreviewState extends State<ImagePreview> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () async {
-                      ByteData image = await rootBundle.load(widget.image.path);
-                      var value = image.buffer.asUint8List();
-
-                      await _checkImage(value.toString());
-
-                      var last = imageTitle.length;
-                      print(imageTitle.substring(1, last - 1));
+                
                       if (imageTitle != null) {
-                        //await _sendImage(widget.image);
+                          var last = imageTitle.length;
 
-                        //   if( _statusCode == 200 || _statusCode == 201){
+                        await _sendImage(widget.image);
+
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -138,7 +137,7 @@ class _ImagePreviewState extends State<ImagePreview> {
                                     imageTitle
                                         .substring(1, last - 1)
                                         .toString())));
-                        //  }
+      
 
                       } else {
                         showDialog(
@@ -153,12 +152,9 @@ class _ImagePreviewState extends State<ImagePreview> {
                                       style:
                                           TextStyle(color: Colors.cyan[800])),
                                   contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 20),
+                                      horizontal: 30, vertical: 30),
                                 ));
                       }
-
-                      // img.Image photo;
-                      // photo = img.decodeImage(values);
                     }),
               ),
             ],
@@ -166,44 +162,3 @@ class _ImagePreviewState extends State<ImagePreview> {
     );
   }
 }
-
-//  _sendImages(File image) async {
-
-//    Dio dio = Dio();
-// String url = "http://192.168.88.224:4000/upload";
-//    FormData formData = FormData.fromMap({
-//       "file":
-//           await MultipartFile.fromFile(image.path, filename:basename(image.path)),
-//   });
-//   // formData.add("Image",Upload)
-//   dio.post(url,data:formData,options: Options(
-//     method: "POST",
-//  //   responseType: ResponseType.json
-// contentType:'multipart/form-data'//  MediaType("image", "jpeg"),//Headers.jsonContentType,
-//   )).then((response){
-//     print(response);
-//   });
-
-// //String imageName = image.path.split('/').last;
-// http.MultipartRequest request =
-//     http.MultipartRequest('POST', Uri.parse(url));
-// request.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-
-// request.files.add(
-//   await http.MultipartFile.fromPath("Image", image.path,
-
-//            // filename: imageName, contentType: MediaType('application', 'x-tar')
-//             // 'image',
-//             // // bytes,
-//             // filename: 'somefile', // optional
-//             // contentType:  MediaType('image', 'jpeg'),
-//             ),
-//       );
-
-//       http.StreamedResponse r = await request.send();
-
-//       print("object");
-//       print(r.statusCode);
-//       print(r.reasonPhrase.toString());
-
-//    }

@@ -18,9 +18,8 @@ class ImageInput extends StatefulWidget {
 }
 
 class _ImageInputState extends State<ImageInput> {
-  // ignore: unused_field
   File _imageFile;
-  //  Image _imageFile;
+
   @override
   void initState() {
     super.initState();
@@ -33,9 +32,7 @@ class _ImageInputState extends State<ImageInput> {
     ).then((File image) {
       setState(() {
         _imageFile = image;
-
         print(path.basename(image.path));
-        // widget.setImage(_imageFile);
       });
     });
   }
@@ -70,7 +67,7 @@ class _ImageInputState extends State<ImageInput> {
               ),
               FlatButton(
                 textColor: Theme.of(context).primaryColor,
-                child: Text('import from library'),
+                child: Text('import from the library'),
                 onPressed: () async {
                   await _getImage(context, ImageSource.gallery).then((_) {
                     Navigator.push(

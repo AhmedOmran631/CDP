@@ -3,9 +3,12 @@ import 'dart:ui';
 import 'package:drawing/Screens/sendGCode.dart';
 import 'package:flutter/material.dart';
 
+
+
 class HandDrawing extends StatefulWidget {
   @override
   _HandDrawingState createState() => _HandDrawingState();
+
 }
 
 class _HandDrawingState extends State<HandDrawing> {
@@ -46,7 +49,6 @@ class _HandDrawingState extends State<HandDrawing> {
                     pen.clear();
                     pen.add(true);
                     points.clear();
-
                     allData.clear();
                     allData.add(data1);
                   });
@@ -127,7 +129,7 @@ class _HandDrawingState extends State<HandDrawing> {
                     size: 35,
                   ),
                   onPressed: () {
-                    print(allData.join().toString());
+
                     Navigator.push(
                         context,
                         MaterialPageRoute(

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:drawing/Screens/input_image/image_input.dart';
 import 'package:flutter/material.dart';
 
+
 class OptionsScreen extends StatefulWidget {
   @override
   _OptionsScreenState createState() => _OptionsScreenState();
@@ -72,7 +73,7 @@ class _OptionsScreenState extends State<OptionsScreen> {
                         Border.all(color: Colors.deepOrangeAccent, width: 3),
                     borderRadius: BorderRadius.circular(15),
                     color: Colors.white),
-                child: // Icon(Icons.view_headline),
+                child: 
                     RotationTransition(
                         turns: AlwaysStoppedAnimation(-50 / 360),
                         child: Image.asset("assets/hand.png"))),
@@ -111,21 +112,18 @@ class _OptionsScreenState extends State<OptionsScreen> {
                   border: Border.all(color: Colors.deepOrangeAccent, width: 3),
                   borderRadius: BorderRadius.circular(15),
                   color: Colors.white),
-              child: //Icon(Icons.compare_arrows),
-              Image.asset("assets/arrows.png")
+              child:  RotationTransition(
+                        turns: AlwaysStoppedAnimation(-45 / 360),
+                        child:
+              Image.asset("assets/arrows.png"))
             ),
           ],
         ));
   }
 
   _setImage({File image}) {
-    // String fileName ;
+   
     setState(() async {
-      // fileName = image.path.split('/').last;
-      // final filePath = await FlutterAbsolutePath.getAbsolutePath(image.path);
-      //  changed = true;
-
-      ///  if (image.path != null) {
       _image = image;
     });
   }

@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:drawing/Screens/bluethooth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:http/http.dart' as http;
@@ -60,8 +59,7 @@ class _NewImageState extends State<NewImage> {
     //   });
     // });
 
-    Bluethooth().adress != null ? adress = Bluethooth().adress : adress = "";
-// BluetoothConnection.toAddress(widget.device.address).then((_connection) {
+  
 
     BluetoothConnection.toAddress(adress).then((_connection) {
       print('Connected to the device');
@@ -83,8 +81,7 @@ class _NewImageState extends State<NewImage> {
             children: <Widget>[
               Center(
                   child: Container(
-                // margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-                // height: MediaQuery.of(context).size.height * 0.70,
+                
                 child: _images != null
                     ? FadeInImage(
                         image: Image.memory(_images).image,

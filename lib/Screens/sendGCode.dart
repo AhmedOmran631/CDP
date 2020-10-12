@@ -1,13 +1,12 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
-
-import 'package:drawing/Screens/bluethooth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SendGCode extends StatefulWidget {
   final String reformData;
-  //final BluetoothDevice device;
   SendGCode({
     this.reformData,
   });
@@ -16,33 +15,28 @@ class SendGCode extends StatefulWidget {
 }
 
 class _SendGCodeState extends State<SendGCode> {
-  bool isConnecting = true;
-  
+  String hc_16 = "20:19:03:28:15:55";
   String _data;
+  bool isConnecting = true;
 
   BluetoothConnection connection;
   bool get isConnected => connection != null && connection.isConnected;
   bool isDisconnecting = false;
 
   Future send(String data) async {
-    // connection.output.add(utf8.encode(data));
-    // await connection.output.allSent;
     connection.output.add(utf8.encode(data));
     await connection.output.allSent;
     print(connection.output.toString());
   }
 
   var adress;
+  bool connected = false;
   connect(String address) async {
     try {
       connection = await BluetoothConnection.toAddress(address);
       print('Connected to the device');
-      // setState(() {
-      //   //widget.adress = address;
-      // //  _adress = address;
-      // });
+      connected = true;
       connection.input.listen((Uint8List data) {
-        //Data entry point
         print(ascii.decode(data));
       });
     } catch (exception) {
@@ -50,18 +44,31 @@ class _SendGCodeState extends State<SendGCode> {
     }
   }
 
-  
-
   List line = [];
 
-  _c() async {
-    await BluetoothConnection.toAddress(Bluethooth().adress)
-        .then((_connection) {
-      print('Connected to the device');
-      connection = connection;
+  List results = [];
+  StreamSubscription streamSubscription;
+
+  void startDiscovery() {
+    print("star");
+    streamSubscription =
+        FlutterBluetoothSerial.instance.startDiscovery().listen((r) {
+      results.add(r.device.address);
+      print(r.device.name);
+    });
+
+    streamSubscription.onDone(() {
       setState(() {
-        isConnecting = false;
-        isDisconnecting = false;
+        connected = true;
+      });
+      print("end scan");
+    });
+  }
+
+  _disconnect() {
+    Future.delayed(Duration(seconds: 2)).then((_) async {
+      await connection.close().then((_) {
+        print("disconnected");
       });
     });
   }
@@ -69,6 +76,7 @@ class _SendGCodeState extends State<SendGCode> {
   @override
   void initState() {
     super.initState();
+    print(widget.reformData.length);
     _data = "G21 (metric ftw) "
             "\n"
             "G90 (absolute mode) "
@@ -109,31 +117,7 @@ class _SendGCodeState extends State<SendGCode> {
             "M18 (drives off)"
             "\n";
 
-    //  Bluethooth().adress != null
-    //     ? adress = Bluethooth().adress
-    //     : adress = "";
-
-    _c();
-
-    //  BluetoothConnection.toAddress(adress).then((_connection) {
-    //   print('Connected to the device');
-    //   connection = _connection;
-    //   setState(() {
-    //     isConnecting = false;
-    //     isDisconnecting = false;
-    //   });
-    // });
-  }
-
-  void dispose() {
-    // Avoid memory leak (`setState` after dispose) and disconnect
-    if (isConnected) {
-      isDisconnecting = true;
-      connection.dispose();
-      connection = null;
-    }
-
-    super.dispose();
+    startDiscovery();
   }
 
   @override
@@ -144,50 +128,43 @@ class _SendGCodeState extends State<SendGCode> {
           backgroundColor: Colors.cyan[800],
         ),
         body: Center(
-            child: RaisedButton(
-                color: Colors.cyan[800],
-                padding: EdgeInsets.symmetric(horizontal: 35, vertical: 20),
-                child: Text(
-                  "SEND",
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                ),
-                onPressed: () async {
-                  print(adress);
+            child:
+                connected
+                    ? RaisedButton(
+                        color: Colors.cyan[800],
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 35, vertical: 20),
+                        child: Text(
+                          "SEND",
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
+                        onPressed: () async {
+                          print(hc_16);
 
-                  await connect(adress);
-                  //  send("false");
+                          if (results.contains(hc_16)) {
+                            await connect(hc_16);
 
-                  for (int i = 0; i < _data.length; i++) {
-                    if (_data[i] != "\n") {
-                      line.add(_data[i]);
-                    } else if (_data[i] == "\n") {
-                      print(line.join().toString());
-                      send(line.join().toString());
+                            for (int i = 0; i < _data.length; i++) {
+                              if (_data[i] != "\n") {
+                                line.add(_data[i]);
+                              } else if (_data[i] == "\n") {
+                                print(line.join().toString());
+                                send(line.join().toString());
 
-                      line.clear();
-                    }
-                  }
-                  // for(int j=0;j<_lines.length;j++){
-                  //     for( int i=0;i<_data.length;i++){
-                  //       if(_data[i] != _lines[j]){
-
-                  //          line.add(_data[i]);
-
-                  //        }
-
-                  // }
-                  //    send(line.join().toString());
-                  //  print(line.join().toString());
-
-                  //         send( _data);
-
-                  // print(_data);
-                  // }
-                  //  print("10"+line.join().toString());
-                })
-            //  Text(_data)
-            )
-        // ]),
-        );
+                                line.clear();
+                              }
+                            }
+                            results.clear();
+                            _disconnect();
+                          } else {
+                            startDiscovery();
+                          }
+                        })
+                    : Center(
+                        child: SpinKitFadingCircle(
+                        color: Colors.cyan[800],
+                        size: 28,
+                      ))
+            ));
   }
 }
