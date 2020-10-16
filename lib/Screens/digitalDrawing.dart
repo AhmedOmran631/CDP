@@ -23,6 +23,9 @@ class _DigitalDrawingState extends State<DigitalDrawing> {
       "G4 P150 (wait 150ms)"
       "\n";
 
+  Color upcolor = Colors.black;
+  Color downcolor = Colors.black;
+
   @override
   void initState() {
     pen.add(draw);
@@ -72,8 +75,8 @@ class _DigitalDrawingState extends State<DigitalDrawing> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Container(
-                  height: 120,
-                  width: 125,
+                  height: 135,
+                  width: 210,
                   padding: EdgeInsets.only(
                     bottom: 5,
                   ),
@@ -84,150 +87,150 @@ class _DigitalDrawingState extends State<DigitalDrawing> {
                     children: <Widget>[
                       Container(
                           padding: EdgeInsets.only(
-                            top: 25,
+                            top: 30,
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              IconButton(
-                                  padding: EdgeInsets.only(right: 10, top: 15),
-                                  icon: Icon(
-                                    Icons.arrow_back,
-                                    color: Colors.black,
-                                    size: 50,
-                                  ),
-                                  onPressed: () {
-                                    var value = points[points.length - 1];
-                                    var dy =
-                                        (5 / height) * (value["offset"].dy);
-                                    var dx =
-                                        (5 / width) * (value["offset"].dx - 5);
+                              FlatButton(
+                                onPressed: () {
+                                  var value = points[points.length - 1];
+                                  var dy = (5 / height) * (value["offset"].dy);
+                                  var dx =
+                                      (5 / width) * (value["offset"].dx - 5);
 
-                                    if (draw) {
-                                      points.add({
-                                        "offset": Offset(value["offset"].dx - 5,
-                                            value["offset"].dy),
-                                        "z": 1
-                                      });
-                                      allData.add(
-                                          "G1 X${dx.toStringAsFixed(2)} Y${dy.toStringAsFixed(2)} F3500.00"
-                                          "\n");
-                                    } else {
-                                      points.add({
-                                        "offset": Offset(value["offset"].dx - 5,
-                                            value["offset"].dy),
-                                        "z": 0
-                                      });
-                                    }
-                                  }),
+                                  if (draw) {
+                                    points.add({
+                                      "offset": Offset(value["offset"].dx - 5,
+                                          value["offset"].dy),
+                                      "z": 1
+                                    });
+                                    allData.add(
+                                        "G1 X${dx.toStringAsFixed(2)} Y${dy.toStringAsFixed(2)} F3500.00"
+                                        "\n");
+                                  } else {
+                                    points.add({
+                                      "offset": Offset(value["offset"].dx - 5,
+                                          value["offset"].dy),
+                                      "z": 0
+                                    });
+                                  }
+                                },
+                                padding: EdgeInsets.only(right: 10, top: 10),
+                                child: new Icon(
+                                  Icons.arrow_back,
+                                  color: Colors.black,
+                                  size: 50,
+                                ),
+                              ),
                               SizedBox(width: 15),
-                              IconButton(
-                                  padding: EdgeInsets.only(top: 15, left: 5),
-                                  icon: Icon(
-                                    Icons.arrow_forward,
-                                    size: 50,
-                                    color: Colors.black,
-                                  ),
-                                  onPressed: () {
-                                    var value = points[points.length - 1];
-                                    var dy =
-                                        (5 / height) * (value["offset"].dy);
-                                    var dx =
-                                        (5 / width) * (value["offset"].dx + 5);
+                              FlatButton(
+                                onPressed: () {
+                                  var value = points[points.length - 1];
+                                  var dy = (5 / height) * (value["offset"].dy);
+                                  var dx =
+                                      (5 / width) * (value["offset"].dx + 5);
 
-                                    if (draw) {
-                                      points.add({
-                                        "offset": Offset(value["offset"].dx + 5,
-                                            value["offset"].dy),
-                                        "z": 1
-                                      });
-                                      allData.add(
-                                          "G1 X${dx.toStringAsFixed(2)} Y${dy.toStringAsFixed(2)} F3500.00"
-                                          "\n");
-                                    } else {
-                                      points.add({
-                                        "offset": Offset(value["offset"].dx + 5,
-                                            value["offset"].dy),
-                                        "z": 0
-                                      });
-                                    }
-                                  }),
+                                  if (draw) {
+                                    points.add({
+                                      "offset": Offset(value["offset"].dx + 5,
+                                          value["offset"].dy),
+                                      "z": 1
+                                    });
+                                    allData.add(
+                                        "G1 X${dx.toStringAsFixed(2)} Y${dy.toStringAsFixed(2)} F3500.00"
+                                        "\n");
+                                  } else {
+                                    points.add({
+                                      "offset": Offset(value["offset"].dx + 5,
+                                          value["offset"].dy),
+                                      "z": 0
+                                    });
+                                  }
+                                },
+                                padding: EdgeInsets.only(top: 15, left: 45),
+                                child: new Icon(
+                                  Icons.arrow_forward,
+                                  size: 50,
+                                  color: Colors.black,
+                                ),
+                              ),
                             ],
                           )),
                       Container(
-                          margin: EdgeInsets.only(left: 24),
+                          margin: EdgeInsets.only(left: 60),
                           child: Column(
                             textDirection: TextDirection.rtl,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              IconButton(
-                                  icon: Icon(
-                                    Icons.arrow_upward,
-                                    color: Colors.black,
-                                    size: 50,
-                                  ),
-                                  onPressed: () {
-                                    var value = points[points.length - 1];
-                                    var dy =
-                                        (5 / height) * (value["offset"].dy - 5);
-                                    var dx = (5 / width) * (value["offset"].dx);
-                                    if (draw) {
-                                      points.add({
-                                        "offset": Offset(value["offset"].dx,
-                                            value["offset"].dy - 5),
-                                        "z": 1
-                                      });
-                                      allData.add(
-                                          "G1 X${dx.toStringAsFixed(2)} Y${dy.toStringAsFixed(2)} F3500.00"
-                                          "\n");
-                                    } else {
-                                      points.add({
-                                        "offset": Offset(value["offset"].dx,
-                                            value["offset"].dy - 5),
-                                        "z": 0
-                                      });
-                                    }
-                                  }),
-                              SizedBox(height: 15),
-                              IconButton(
-                                  icon: Icon(
-                                    Icons.arrow_downward,
-                                    size: 50,
-                                    color: Colors.black,
-                                  ),
-                                  onPressed: () {
-                                    var value = points[points.length - 1];
-                                    var dy =
-                                        (5 / height) * (value["offset"].dy + 5);
-                                    var dx = (5 / width) * (value["offset"].dx);
-                                    if (draw) {
-                                      points.add({
-                                        "offset": Offset(value["offset"].dx,
-                                            value["offset"].dy + 5),
-                                        "z": 1
-                                      });
-                                      allData.add(
-                                          "G1 X${dx.toStringAsFixed(2)} Y${dy.toStringAsFixed(2)} F3500.00"
-                                          "\n");
-                                    } else {
-                                      points.add({
-                                        "offset": Offset(value["offset"].dx,
-                                            value["offset"].dy + 5),
-                                        "z": 0
-                                      });
-                                    }
-                                  }),
+                              FlatButton(
+                                onPressed: () {
+                                  var value = points[points.length - 1];
+                                  var dy =
+                                      (5 / height) * (value["offset"].dy - 5);
+                                  var dx = (5 / width) * (value["offset"].dx);
+                                  if (draw) {
+                                    points.add({
+                                      "offset": Offset(value["offset"].dx,
+                                          value["offset"].dy - 5),
+                                      "z": 1
+                                    });
+                                    allData.add(
+                                        "G1 X${dx.toStringAsFixed(2)} Y${dy.toStringAsFixed(2)} F3500.00"
+                                        "\n");
+                                  } else {
+                                    points.add({
+                                      "offset": Offset(value["offset"].dx,
+                                          value["offset"].dy - 5),
+                                      "z": 0
+                                    });
+                                  }
+                                },
+                                child: new Icon(
+                                  Icons.arrow_upward,
+                                  color: Colors.black,
+                                  size: 50,
+                                ),
+                              ),
+                              SizedBox(height: 30),
+                              FlatButton(
+                                onPressed: () {
+                                  var value = points[points.length - 1];
+                                  var dy =
+                                      (5 / height) * (value["offset"].dy + 5);
+                                  var dx = (5 / width) * (value["offset"].dx);
+                                  if (draw) {
+                                    points.add({
+                                      "offset": Offset(value["offset"].dx,
+                                          value["offset"].dy + 5),
+                                      "z": 1
+                                    });
+                                    allData.add(
+                                        "G1 X${dx.toStringAsFixed(2)} Y${dy.toStringAsFixed(2)} F3500.00"
+                                        "\n");
+                                  } else {
+                                    points.add({
+                                      "offset": Offset(value["offset"].dx,
+                                          value["offset"].dy + 5),
+                                      "z": 0
+                                    });
+                                  }
+                                },
+                                child: Icon(
+                                  Icons.arrow_downward,
+                                  size: 50,
+                                  color: Colors.black,
+                                ),
+                              ),
                             ],
                           ))
                     ],
                   )),
               Container(
-                  height: 120,
+                  height: 135,
                   width: 95,
-                  padding: EdgeInsets.only(
-                    right: 18,
-                  ),
+                  padding: EdgeInsets.only(left: 5),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.cyan[800]),
@@ -236,33 +239,49 @@ class _DigitalDrawingState extends State<DigitalDrawing> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      IconButton(
-                          icon: Icon(Icons.arrow_upward,
-                              size: 50, color: Colors.black),
-                          onPressed: () {
-                            setState(() {
-                              draw = false;
-                              pen.add(false);
-
-                              allData.add(data2);
-                              allData.add("\n");
-                              allData.add("\n");
-                            });
-                          }),
-                      SizedBox(height: 10),
-                      IconButton(
-                          icon: Icon(
-                            Icons.arrow_downward,
-                            size: 50,
-                            color: Colors.black,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              draw = true;
-                              pen.add(true);
-                              allData.add(data1);
-                            });
-                          }),
+                      FlatButton(
+                        onPressed: () {
+                          setState(() {
+                            draw = false;
+                            pen.add(false);
+                            if (draw == false) {
+                              upcolor = Colors.red;
+                              downcolor = Colors.black;
+                            } else {
+                              upcolor = Colors.black;
+                            }
+                            allData.add(data2);
+                            allData.add("\n");
+                            allData.add("\n");
+                          });
+                        },
+                        child: new Icon(
+                          Icons.arrow_upward,
+                          size: 50,
+                          color: upcolor,
+                        ),
+                      ),
+                      SizedBox(height: 25),
+                      FlatButton(
+                        onPressed: () {
+                          setState(() {
+                            draw = true;
+                            if (draw == true) {
+                              downcolor = Colors.red;
+                              upcolor = Colors.black;
+                            } else {
+                              downcolor = Colors.black;
+                            }
+                            pen.add(true);
+                            allData.add(data1);
+                          });
+                        },
+                        child: new Icon(
+                          Icons.arrow_downward,
+                          size: 50,
+                          color: downcolor,
+                        ),
+                      ),
                     ],
                   ))
             ],
