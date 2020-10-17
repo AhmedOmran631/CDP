@@ -3,12 +3,9 @@ import 'dart:ui';
 import 'package:drawing/Screens/sendGCode.dart';
 import 'package:flutter/material.dart';
 
-
-
 class HandDrawing extends StatefulWidget {
   @override
   _HandDrawingState createState() => _HandDrawingState();
-
 }
 
 class _HandDrawingState extends State<HandDrawing> {
@@ -36,7 +33,7 @@ class _HandDrawingState extends State<HandDrawing> {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.cyan[800],
+          backgroundColor: Colors.lightBlue,
           elevation: 0,
           actions: <Widget>[
             IconButton(
@@ -117,7 +114,7 @@ class _HandDrawingState extends State<HandDrawing> {
                 alignment: Alignment.bottomRight,
                 margin: EdgeInsets.only(bottom: 10, right: 10),
                 decoration: BoxDecoration(
-                    shape: BoxShape.circle, color: Colors.cyan[800]),
+                    shape: BoxShape.circle, color: Colors.lightBlue),
               )),
           Align(
               alignment: Alignment.bottomRight,
@@ -129,7 +126,6 @@ class _HandDrawingState extends State<HandDrawing> {
                     size: 35,
                   ),
                   onPressed: () {
-
                     Navigator.push(
                         context,
                         MaterialPageRoute(

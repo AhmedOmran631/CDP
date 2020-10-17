@@ -57,11 +57,12 @@ class _ImagePreviewState extends State<ImagePreview> {
       });
     }
   }
-var _value;
-  _checkImage() async{
-      ByteData image = await rootBundle.load(widget.image.path);
+
+  var _value;
+  _checkImage() async {
+    ByteData image = await rootBundle.load(widget.image.path);
     _value = image.buffer.asUint8List();
-    
+
     for (int i = 0; i < imagesValue.length; i++) {
       if (imagesValue[i].containsValue(_value.toString())) {
         print(imagesValue[i].keys);
@@ -70,10 +71,7 @@ var _value;
         });
       }
     }
-    
   }
-
-
 
   _init() async {
     await _readBytes().then((_) {
@@ -86,7 +84,6 @@ var _value;
       });
     });
     await _checkImage();
-
   }
 
   @override
@@ -99,10 +96,12 @@ var _value;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.cyan[800],
-        centerTitle: true,
-        title:Text(path.basename(widget.image.path),style: TextStyle(fontSize: 14),)
-      ),
+          backgroundColor: Colors.lightBlue,
+          centerTitle: true,
+          title: Text(
+            path.basename(widget.image.path),
+            style: TextStyle(fontSize: 14),
+          )),
       body: SafeArea(
           minimum: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
           child: Stack(
@@ -117,15 +116,14 @@ var _value;
               Align(
                 alignment: Alignment.bottomRight,
                 child: RaisedButton(
-                    color: Colors.cyan[800],
+                    color: Colors.lightBlue,
                     child: Text(
                       "SEND",
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () async {
-                
                       if (imageTitle != null) {
-                          var last = imageTitle.length;
+                        var last = imageTitle.length;
 
                         await _sendImage(widget.image);
 
@@ -137,20 +135,18 @@ var _value;
                                     imageTitle
                                         .substring(1, last - 1)
                                         .toString())));
-      
-
                       } else {
                         showDialog(
                             context: context,
                             builder: (contxt) => AlertDialog(
                                   title: Text(
                                     "Somthing Went Wrong !",
-                                    style: TextStyle(color: Colors.cyan[800]),
+                                    style: TextStyle(color: Colors.lightBlue),
                                   ),
                                   content: Text(
                                       "please try with another picture",
                                       style:
-                                          TextStyle(color: Colors.cyan[800])),
+                                          TextStyle(color: Colors.lightBlue)),
                                   contentPadding: EdgeInsets.symmetric(
                                       horizontal: 30, vertical: 30),
                                 ));

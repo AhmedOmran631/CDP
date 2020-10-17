@@ -125,46 +125,43 @@ class _SendGCodeState extends State<SendGCode> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Colors.cyan[800],
+          backgroundColor: Colors.lightBlue,
         ),
         body: Center(
-            child:
-                connected
-                    ? RaisedButton(
-                        color: Colors.cyan[800],
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 35, vertical: 20),
-                        child: Text(
-                          "SEND",
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                        ),
-                        onPressed: () async {
-                          print(hc_16);
+            child: connected
+                ? RaisedButton(
+                    color: Colors.lightBlue,
+                    padding: EdgeInsets.symmetric(horizontal: 35, vertical: 20),
+                    child: Text(
+                      "SEND",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                    onPressed: () async {
+                      print(hc_16);
 
-                          if (results.contains(hc_16)) {
-                            await connect(hc_16);
+                      if (results.contains(hc_16)) {
+                        await connect(hc_16);
 
-                            for (int i = 0; i < _data.length; i++) {
-                              if (_data[i] != "\n") {
-                                line.add(_data[i]);
-                              } else if (_data[i] == "\n") {
-                                print(line.join().toString());
-                                send(line.join().toString());
+                        for (int i = 0; i < _data.length; i++) {
+                          if (_data[i] != "\n") {
+                            line.add(_data[i]);
+                          } else if (_data[i] == "\n") {
+                            print(line.join().toString());
+                            send(line.join().toString());
 
-                                line.clear();
-                              }
-                            }
-                            results.clear();
-                            _disconnect();
-                          } else {
-                            startDiscovery();
+                            line.clear();
                           }
-                        })
-                    : Center(
-                        child: SpinKitFadingCircle(
-                        color: Colors.cyan[800],
-                        size: 28,
-                      ))
-            ));
+                        }
+                        results.clear();
+                        _disconnect();
+                      } else {
+                        startDiscovery();
+                      }
+                    })
+                : Center(
+                    child: SpinKitFadingCircle(
+                    color: Colors.lightBlue,
+                    size: 28,
+                  ))));
   }
 }

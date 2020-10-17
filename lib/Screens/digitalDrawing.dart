@@ -45,7 +45,7 @@ class _DigitalDrawingState extends State<DigitalDrawing> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Colors.cyan[800],
+          backgroundColor: Colors.lightBlue,
           actions: <Widget>[
             IconButton(
                 icon: Icon(
@@ -82,7 +82,7 @@ class _DigitalDrawingState extends State<DigitalDrawing> {
                   ),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.cyan[800]),
+                      color: Colors.lightBlue),
                   child: Stack(
                     children: <Widget>[
                       Container(
@@ -233,7 +233,7 @@ class _DigitalDrawingState extends State<DigitalDrawing> {
                   padding: EdgeInsets.only(left: 5),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.cyan[800]),
+                      color: Colors.lightBlue),
                   child: Column(
                     textDirection: TextDirection.rtl,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -302,7 +302,7 @@ class _DigitalDrawingState extends State<DigitalDrawing> {
                       alignment: Alignment.bottomRight,
                       margin: EdgeInsets.only(right: 10, top: 10),
                       decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.cyan[800]),
+                          shape: BoxShape.circle, color: Colors.lightBlue),
                     )),
                 Align(
                     alignment: Alignment.topRight,

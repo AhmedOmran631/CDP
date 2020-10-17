@@ -59,8 +59,6 @@ class _NewImageState extends State<NewImage> {
     //   });
     // });
 
-  
-
     BluetoothConnection.toAddress(adress).then((_connection) {
       print('Connected to the device');
       connection = connection;
@@ -74,14 +72,13 @@ class _NewImageState extends State<NewImage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.cyan[800]),
+      appBar: AppBar(backgroundColor: Colors.lightBlue),
       body: SafeArea(
           minimum: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
           child: Stack(
             children: <Widget>[
               Center(
                   child: Container(
-                
                 child: _images != null
                     ? FadeInImage(
                         image: Image.memory(_images).image,
@@ -95,7 +92,7 @@ class _NewImageState extends State<NewImage> {
               Align(
                 alignment: Alignment.bottomRight,
                 child: RaisedButton(
-                    color: Colors.cyan[800],
+                    color: Colors.lightBlue,
                     child: Text(
                       "SEND",
                       style: TextStyle(color: Colors.white),
