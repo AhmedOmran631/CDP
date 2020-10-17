@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
+// import 'dart:convert';
 //import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -25,14 +25,15 @@ class _BluethoothState extends State<Bluethooth> {
     size: 35,
   );
 
-  bool _finddevicesinlist(BluetoothDevice device) {
-    for (var r in results) {
-      if (r.device == device) return false;
-    }
-    return true;
-  }
+  // bool _finddevicesinlist(BluetoothDevice device) {
+  //   for (var r in results) {
+  //     if (r.device == device) return false;
+  //   }
+  //   return true;
+  // }
 
   void startDiscovery() {
+    print("Scan Start .. ");
     streamSubscription =
         FlutterBluetoothSerial.instance.startDiscovery().listen((r) {
       findBluet = Icon(
@@ -41,7 +42,8 @@ class _BluethoothState extends State<Bluethooth> {
         size: 35,
       );
 
-      if (r != null) if (_finddevicesinlist(r.device)) results.add(r);
+      // if (r != null) if (_finddevicesinlist(r.device))
+      results.add(r);
 
       print(r.device.name);
     });
@@ -69,15 +71,15 @@ class _BluethoothState extends State<Bluethooth> {
     }
   }
 
-  Future send(String data) async {
-    connection.output.add(utf8.encode(data));
-    await connection.output.allSent;
-    print(connection.output.toString());
-  }
+  // Future send(String data) async {
+  //   connection.output.add(utf8.encode(data));
+  //   await connection.output.allSent;
+  //   print(connection.output.toString());
+  // }
 
   Future<Null> _onRefresh() {
     setState(() {});
-    return Future.delayed(Duration(seconds: 4));
+    return Future.delayed(Duration(seconds: 1));
   }
 
   _disconnect() {
